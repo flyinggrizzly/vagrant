@@ -13,9 +13,6 @@ $script = <<SCRIPT
 
   git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
   sudo -H -u ubuntu bash -i -c 'rbenv install 2.4.0'
-  sudo -H -u ubuntu bash -i -c 'rbenv install 2.2.5'
-  sudo -H -u ubuntu bash -i -c 'rbenv install 2.3.0'
-  sudo -H -u ubuntu bash -i -c 'rbenv install 2.0.0-p648'
   sudo -H -u ubuntu bash -i -c 'rbenv rehash'
   sudo -H -u ubuntu bash -i -c 'rbenv global 2.4.0'
   sudo -H -u ubuntu bash -i -c 'gem install bundler --no-ri --no-rdoc'
@@ -31,7 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 3001, host: 3001
 
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
     vb.name = 'U_arctos_volucris--RUBY'
   end
 
