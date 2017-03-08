@@ -1,0 +1,4 @@
+machine/.vagrant/
+share/*
+machine/*.log
+.DS_Store
