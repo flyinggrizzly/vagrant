@@ -6,9 +6,11 @@ $script = <<SCRIPT
   sudo apt-get -y upgrade
   sudo apt-get -y install curl git-core python-software-properties ruby-dev libreadline-dev libpq-dev build-essential nginx libsqlite3-0 libsqlite3-dev libxml2 libxml2-dev libxslt1-dev nodejs postgresql postgresql-contrib imagemagick
 
+  # Install rbenv
   git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-  echo 'eval "$(rbenv init -)"'               >> ~/.bashrc
+  echo '# RBENV' >> ~/.zshrc
+  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
+  echo 'eval "$(rbenv init -)"'               >> ~/.zshrc
   source ~/.bashrc
 
   git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
@@ -17,8 +19,13 @@ $script = <<SCRIPT
   sudo -H -u ubuntu bash -i -c 'rbenv global 2.4.0'
   sudo -H -u ubuntu bash -i -c 'gem install bundler --no-ri --no-rdoc'
   sudo -H -u ubuntu bash -i -c 'rbenv rehash'
-  # sudo -u postgres createdb --locale en_US.utf8 --encoding UTF8 --template template0 development
-  # echo "ALTER USER postgres WITH PASSWORD \'develop\';" | sudo -u postgres psql
+
+
+  # Install zsh, oh-my-zsh
+  sudo apt -y install git-core zsh
+  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  sudo apt -y install fonts-powerline
+  curl -fsSL https://raw.github.com/flyinggrizzly/ToolShed/master/files/zshrc | sed s/USERNAME/$USER/ > ~/.zshrc
 SCRIPT
 
 VAGRANTFILE_API_VERSION = "2"
