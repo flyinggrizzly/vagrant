@@ -2,16 +2,30 @@
 # vi: set ft=ruby :
 
 $script = <<SCRIPT
-  sudo apt-get -y update
-  sudo apt-get -y upgrade
-  sudo apt-get -y install curl git-core python-software-properties ruby-dev libreadline-dev libpq-dev build-essential nginx libsqlite3-0 libsqlite3-dev libxml2 libxml2-dev libxslt1-dev nodejs postgresql postgresql-contrib imagemagick
+  echo "\nInstalling system updates and dev software"
+  sudo apt -y update
+  sudo apt -y upgrade
+  sudo apt -y install curl git-core python-software-properties ruby-dev libreadline-dev libpq-dev build-essential nginx libsqlite3-0 libsqlite3-dev libxml2 libxml2-dev libxslt1-dev nodejs postgresql postgresql-contrib imagemagick
+
+  # Install zsh, oh-my-zsh
+  echo "\nInstalling and configuring ZSH, Oh My Zsh!"
+  sudo apt -y install git-core zsh
+  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  sudo chmod +x ~/.oh-my-zsh/oh-my-zsh.sh
+  sudo apt -y install fonts-powerline
+  HOME_DIR=$(eval echo ~$USER)
+  curl -fsSL https://raw.github.com/flyinggrizzly/ToolShed/master/files/zshrc | sed s:/pathtohomedirectory:$HOME_DIR: > ~/.zshrc
+
+  # Get VimRC in here
+  echo "\nConfiguring VIM"
+  curl -fsSL https://raw.github.com/flyinggrizzly/ToolShed/master/files/vimrc | sed s:/pathtohomedirectory:$HOME_DIR: > ~/.vimrc
 
   # Install rbenv
+  echo "\nInstalling Rbenv, Ruby-build, and Ruby 2.4.0"
   git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-  echo '# RBENV' >> ~/.zshrc
   echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
   echo 'eval "$(rbenv init -)"'               >> ~/.zshrc
-  source ~/.bashrc
+  source ~/.zshrc
 
   git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
   sudo -H -u ubuntu bash -i -c 'rbenv install 2.4.0'
@@ -20,12 +34,8 @@ $script = <<SCRIPT
   sudo -H -u ubuntu bash -i -c 'gem install bundler --no-ri --no-rdoc'
   sudo -H -u ubuntu bash -i -c 'rbenv rehash'
 
-
-  # Install zsh, oh-my-zsh
-  sudo apt -y install git-core zsh
-  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  sudo apt -y install fonts-powerline
-  curl -fsSL https://raw.github.com/flyinggrizzly/ToolShed/master/files/zshrc | sed s/USERNAME/$USER/ > ~/.zshrc
+  # Install Enterprise Gem. Because awesome
+  gem install uss-enterprise
 SCRIPT
 
 VAGRANTFILE_API_VERSION = "2"
@@ -35,10 +45,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 3001, host: 3001
   config.vm.synced_folder "../share", "/var/www/apps"
 
+
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "2048"]
-    vb.name = 'U_arctos_volucris--RUBY'
+    vb.name = 'U_arctos_volucris'
   end
 
   config.vm.provision :shell, privileged: false, inline: $script
+
+  config.vm.provision :shell, inline: "chsh -s $(which zsh) ubuntu"
 end
