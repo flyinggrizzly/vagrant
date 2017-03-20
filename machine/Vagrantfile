@@ -22,7 +22,7 @@ $script = <<SCRIPT
 
   # Install rbenv
   echo "\nInstalling Rbenv, Ruby-build, and Ruby 2.4.0"
-  git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+  sudo apt install rbenv
   echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
   echo 'eval "$(rbenv init -)"'               >> ~/.zshrc
   source ~/.zshrc
@@ -53,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :shell, privileged: false, inline: $script
 
-  config.vm.provision :shell, inline: "chsh -s $(which zsh) ubuntu"
+  config.vm.provision :shell, privileged: false, inline: "sudo chsh -s $(which zsh) ubuntu"
   
   config.vm.provision :shell, inline: "echo 'Engage!'"
 
