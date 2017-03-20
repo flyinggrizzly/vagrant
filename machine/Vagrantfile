@@ -55,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :shell, inline: "chsh -s $(which zsh) ubuntu"
   
-  config.vm.provision :shell, inline: "echo "Engage!"
+  config.vm.provision :shell, inline: "echo 'Engage!'"
 
   config.vm.provision :shell, inline: "enterprise"
 
