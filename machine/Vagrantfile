@@ -5,7 +5,7 @@ $script = <<SCRIPT
   echo "\nInstalling system updates and dev software"
   sudo apt -y update
   sudo apt -y upgrade
-  sudo apt -y install curl git-core python-software-properties ruby-dev libreadline-dev libpq-dev build-essential nginx libsqlite3-0 libsqlite3-dev libxml2 libxml2-dev libxslt1-dev nodejs postgresql-9.6 postgresql-contrib-9.6 imagemagick
+  sudo apt -y install curl git-core python-software-properties ruby-dev libreadline-dev libpq-dev build-essential nginx libsqlite3-0 libsqlite3-dev libxml2 libxml2-dev libxslt1-dev nodejs postgresql postgresql-contrib libpq-dev imagemagick
 
   # Install zsh, oh-my-zsh
   echo "\nInstalling and configuring ZSH, Oh My Zsh!"
@@ -30,6 +30,7 @@ $script = <<SCRIPT
   git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
   sudo -H -u ubuntu bash -i -c 'rbenv install 2.4.0'
   sudo -H -u ubuntu bash -i -c 'rbenv install 2.2.6'
+  sudo -H -u ubuntu bash -i -c 'rbenv install 2.3.4'
   sudo -H -u ubuntu bash -i -c 'rbenv rehash'
   sudo -H -u ubuntu bash -i -c 'rbenv global 2.4.0'
   sudo -H -u ubuntu bash -i -c 'gem install bundler --no-ri --no-rdoc'
