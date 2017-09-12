@@ -1,4 +1,4 @@
 machine/.vagrant/
-share/*
+apps/*
 machine/*.log
 .DS_Store
