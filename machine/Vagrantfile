@@ -28,7 +28,7 @@ $script = <<SCRIPT
   source ~/.zshrc
 
   git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-  sudo -H -u ubuntu bash -i -c 'rbenv install 2.4.0'
+  sudo -H -u ubuntu bash -i -c 'rbenv install 2.4.1'
   sudo -H -u ubuntu bash -i -c 'rbenv install 2.2.6'
   sudo -H -u ubuntu bash -i -c 'rbenv install 2.3.4'
   sudo -H -u ubuntu bash -i -c 'rbenv rehash'
